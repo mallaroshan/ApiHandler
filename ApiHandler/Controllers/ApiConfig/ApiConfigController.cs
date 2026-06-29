@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiHandler.DTO;
+using ApiHandler.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiHandler.Controllers.ApiConfig
@@ -7,10 +9,15 @@ namespace ApiHandler.Controllers.ApiConfig
     [ApiController]
     public class ApiConfigController : ControllerBase
     {
-        private readonly IApiConfigService _configService;
+        private readonly IConfigurationService _configService;
+
+        public ApiConfigController(IConfigurationService service)
+        {
+            _configService = service;
+        }
 
         [HttpPost]
-        public async Task<IActionResult> SaveConfig([FromBody] ApiConfigDto dto)
+        public async Task<IActionResult> SaveConfig([FromBody] ApiConfigDTO dto)
         {
             var id = await _configService.SaveAsync(dto);
             return Ok(new { configId = id });
@@ -26,7 +33,7 @@ namespace ApiHandler.Controllers.ApiConfig
         [HttpGet]
         public async Task<IActionResult> GetAllConfigs()
         {
-            return Ok(await _configService.GetAllAsync());
+            return Ok(await _configService.GetAsync());
         }
     }
 }
