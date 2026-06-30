@@ -17,6 +17,7 @@ namespace ApiHandler.Controllers.ApiConfig
         }
 
         [HttpPost]
+        [Route("SaveConfig")]
         public async Task<IActionResult> SaveConfig([FromBody] ApiConfigDTO dto)
         {
             var id = await _configService.SaveAsync(dto);
@@ -31,6 +32,7 @@ namespace ApiHandler.Controllers.ApiConfig
         }
 
         [HttpGet]
+        [Route("GetAllConfigs")]
         public async Task<IActionResult> GetAllConfigs()
         {
             return Ok(await _configService.GetAsync());

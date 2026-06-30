@@ -18,11 +18,17 @@ namespace ApiHandler.Services
 			{
                 var param = new ApiConfiguration
                 {
-
-
-
+                    Name = dto.Name,
+                    BaseUrl = dto.Url,
+                    Endpoint = string.Empty, // not used for now, kept for future split
+                    HttpMethod = dto.Method,
+                    AuthType = dto.AuthType,
+                    AuthValue = dto.AuthValue,
+                    Headers = dto.AuthHeaderName,
+                    IsActive = true,
+                    CreatedOn = DateTime.UtcNow
                 };
-                 var config = await _db.ApiConfigurations.AddAsync(param);
+                var config = await _db.ApiConfigurations.AddAsync(param);
 
                 _db.SaveChanges();
 
