@@ -15,6 +15,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<FieldMapping> ResponseMappings => Set<FieldMapping>();
     public DbSet<Pipeline> Pipelines => Set<Pipeline>();
     public DbSet<PipelineLog> PipelineLogs => Set<PipelineLog>();
+    public DbSet<ExternalApi> ExternalApis => Set<ExternalApi>();
+
+    public DbSet<ApiHeader> ApiHeaders => Set<ApiHeader>();
+
+    public DbSet<RequestParameter> RequestParameters => Set<RequestParameter>();
+
+    public DbSet<ResponseParameter> ResponseParameters => Set<ResponseParameter>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,5 +41,10 @@ public class ApplicationDbContext : DbContext
             .HasOne(x => x.Pipeline)
             .WithMany()
             .HasForeignKey(x => x.PipelineId);
+
+        modelBuilder.Entity<ExternalApi>()
+            .HasMany(x => x.Headers)
+            .WithOne(x => x.ExternalApi)
+            .HasForeignKey(x => x.ExternalApiId);
     }
 }

@@ -21,11 +21,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference(options =>
-    {
-        options.WithTitle("Aggregator API");
-        options.WithPreferredScheme("Bearer");
-    });
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
