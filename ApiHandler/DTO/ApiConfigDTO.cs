@@ -4,10 +4,12 @@
     {
         public string Name { get; set; } 
         public string Url { get; set; }
-        public string Method { get; set; } // GET, POST, etc.
-        public string AuthType { get; set; } // ApiKey, Bearer, Basic, None
-        public string AuthValue { get; set; }
-        public string? AuthHeaderName { get; set; } // e.g. "x-api-key"
+        public string Method { get; set; } 
+        public string? AuthType { get; set; } 
+        public string? AuthValue { get; set; }
+        public string? AuthHeaderName { get; set; } 
+        public ICollection<FieldMapping> FieldMappings { get; set; }
+            = new List<FieldMapping>();
     }
     public class ApiConfiguration
     {
@@ -82,6 +84,24 @@
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
     public class FieldMapping
+    {
+        public Guid Id { get; set; } = new Guid();
+        public Guid ApiConfigurationId { get; set; }
+
+        public ApiConfiguration ApiConfiguration { get; set; } = null!;
+
+        // Example:
+        // customer.name
+        // customer.address.city
+        public string JsonPath { get; set; } = string.Empty;
+
+        // Example:
+        // CustomerName
+        public string DatabaseColumn { get; set; } = string.Empty;
+
+        public string DataType { get; set; } = "nvarchar";
+    }
+    public class ResponseMapping
     {
         public Guid Id { get; set; } = new Guid();
         public Guid ApiConfigurationId { get; set; }

@@ -14,52 +14,63 @@ namespace ApiHandler.Services
         }
         public async Task<object> SaveAsync(ApiConfigDTO dto)
         {
-			try
-			{
-                var param = new ApiConfiguration
+            try
+            {
+                var entity = new ApiConfiguration
                 {
                     Name = dto.Name,
                     BaseUrl = dto.Url,
-                    Endpoint = string.Empty, // not used for now, kept for future split
+                    Endpoint = string.Empty,
                     HttpMethod = dto.Method,
-                    AuthType = dto.AuthType,
+                    AuthType = dto.AuthType ?? "None",
                     AuthValue = dto.AuthValue,
                     Headers = dto.AuthHeaderName,
                     IsActive = true,
                     CreatedOn = DateTime.UtcNow
                 };
-                var config = await _db.ApiConfigurations.AddAsync(param);
+                
+                foreach (var mapping in dto.FieldMappings)
+                {
+                    entity.FieldMappings.Add(new FieldMapping
+                    {
+                        JsonPath = mapping.JsonPath,
+                        DatabaseColumn = mapping.DatabaseColumn,
+                        DataType = mapping.DataType
+                    });
+                }
 
-                _db.SaveChanges();
+                _db.ApiConfigurations.Add(entity);
+                await _db.SaveChangesAsync(); 
 
-                return config;
+                return entity.Id;
 
             }
-			catch (Exception)
-			{
+            catch (Exception)
+            {
 
-				throw;
-			}
+                throw;
+            }
         }
         public async Task<object> GetAsync()
         {
-			try
-			{
+            try
+            {
+                var dbName = _db.Database.GetConnectionString();
                 var config = await _db.ApiConfigurations.ToListAsync();
 
                 return config;
 
             }
-			catch (Exception)
-			{
+            catch (Exception)
+            {
 
-				throw;
-			}
+                throw;
+            }
         }
         public async Task<object> GetByIdAsync(string id)
         {
-			try
-			{
+            try
+            {
                 var config = await _db.ApiConfigurations
                             .Where(x => x.Id == Guid.Parse(id))
                             .FirstOrDefaultAsync();
@@ -67,11 +78,11 @@ namespace ApiHandler.Services
                 return config;
 
             }
-			catch (Exception)
-			{
+            catch (Exception)
+            {
 
-				throw;
-			}
+                throw;
+            }
         }
     }
 }

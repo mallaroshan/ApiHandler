@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<ApiConfiguration> ApiConfigurations => Set<ApiConfiguration>();
     public DbSet<FieldMapping> FieldMappings => Set<FieldMapping>();
+    public DbSet<FieldMapping> ResponseMappings => Set<FieldMapping>();
     public DbSet<Pipeline> Pipelines => Set<Pipeline>();
     public DbSet<PipelineLog> PipelineLogs => Set<PipelineLog>();
 

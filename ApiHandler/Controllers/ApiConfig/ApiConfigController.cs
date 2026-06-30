@@ -21,7 +21,7 @@ namespace ApiHandler.Controllers.ApiConfig
         public async Task<IActionResult> SaveConfig([FromBody] ApiConfigDTO dto)
         {
             var id = await _configService.SaveAsync(dto);
-            return Ok(new { configId = id });
+            return Ok(id);
         }
 
         [HttpGet("{id}")]
