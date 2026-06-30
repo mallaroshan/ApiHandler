@@ -4,6 +4,7 @@ using ApiHandler.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiHandler.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260630045554_FixFieldMappingForeignKey")]
+    partial class FixFieldMappingForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,72 +77,6 @@ namespace ApiHandler.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ApiConfigurations");
-                });
-
-            modelBuilder.Entity("ApiHandler.DTO.ApiHeader", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ExternalApiId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("HeaderName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HeaderValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSecret")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExternalApiId");
-
-                    b.ToTable("ApiHeaders");
-                });
-
-            modelBuilder.Entity("ApiHandler.DTO.ExternalApi", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AuthenticationType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BaseUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Endpoint")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Method")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TimeoutInSeconds")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExternalApis");
                 });
 
             modelBuilder.Entity("ApiHandler.DTO.FieldMapping", b =>
@@ -233,79 +170,6 @@ namespace ApiHandler.Migrations
                     b.ToTable("PipelineLogs");
                 });
 
-            modelBuilder.Entity("ApiHandler.DTO.RequestParameter", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DataType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DefaultValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ExternalApiId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("JsonPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExternalApiId");
-
-                    b.ToTable("RequestParameters");
-                });
-
-            modelBuilder.Entity("ApiHandler.DTO.ResponseParameter", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DataType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ExternalApiId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("JsonPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExternalApiId");
-
-                    b.ToTable("ResponseParameters");
-                });
-
-            modelBuilder.Entity("ApiHandler.DTO.ApiHeader", b =>
-                {
-                    b.HasOne("ApiHandler.DTO.ExternalApi", "ExternalApi")
-                        .WithMany("Headers")
-                        .HasForeignKey("ExternalApiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExternalApi");
-                });
-
             modelBuilder.Entity("ApiHandler.DTO.FieldMapping", b =>
                 {
                     b.HasOne("ApiHandler.DTO.ApiConfiguration", "ApiConfiguration")
@@ -339,40 +203,9 @@ namespace ApiHandler.Migrations
                     b.Navigation("Pipeline");
                 });
 
-            modelBuilder.Entity("ApiHandler.DTO.RequestParameter", b =>
-                {
-                    b.HasOne("ApiHandler.DTO.ExternalApi", "ExternalApi")
-                        .WithMany("RequestParameters")
-                        .HasForeignKey("ExternalApiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExternalApi");
-                });
-
-            modelBuilder.Entity("ApiHandler.DTO.ResponseParameter", b =>
-                {
-                    b.HasOne("ApiHandler.DTO.ExternalApi", "ExternalApi")
-                        .WithMany("ResponseParameters")
-                        .HasForeignKey("ExternalApiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExternalApi");
-                });
-
             modelBuilder.Entity("ApiHandler.DTO.ApiConfiguration", b =>
                 {
                     b.Navigation("FieldMappings");
-                });
-
-            modelBuilder.Entity("ApiHandler.DTO.ExternalApi", b =>
-                {
-                    b.Navigation("Headers");
-
-                    b.Navigation("RequestParameters");
-
-                    b.Navigation("ResponseParameters");
                 });
 #pragma warning restore 612, 618
         }
