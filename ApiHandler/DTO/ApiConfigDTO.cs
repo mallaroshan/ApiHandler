@@ -11,7 +11,7 @@
     }
     public class ApiConfiguration
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
 
         public string Name { get; set; } = string.Empty;
 
@@ -45,9 +45,9 @@
     }
     public class PipelineLog
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
 
-        public int PipelineId { get; set; }
+        public Guid PipelineId { get; set; }
 
         public Pipeline Pipeline { get; set; } = null!;
 
@@ -65,11 +65,12 @@
     }
     public class Pipeline
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
+
 
         public string Name { get; set; } = string.Empty;
 
-        public int ApiConfigurationId { get; set; }
+        public Guid ApiConfigurationId { get; set; }
 
         public ApiConfiguration ApiConfiguration { get; set; } = null!;
 
@@ -82,9 +83,8 @@
     }
     public class FieldMapping
     {
-        public int Id { get; set; }
-
-        public int ApiConfigurationId { get; set; }
+        public Guid Id { get; set; } = new Guid();
+        public Guid ApiConfigurationId { get; set; }
 
         public ApiConfiguration ApiConfiguration { get; set; } = null!;
 

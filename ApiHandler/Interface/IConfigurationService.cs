@@ -6,6 +6,6 @@ namespace ApiHandler.Interface
     {
         Task<object> SaveAsync(ApiConfigDTO dto);
         Task<object> GetAsync();
-        Task<object> GetByIdAsync(int id);
+        Task<object> GetByIdAsync(string id);
     }
 }

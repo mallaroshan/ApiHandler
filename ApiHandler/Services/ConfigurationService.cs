@@ -16,7 +16,13 @@ namespace ApiHandler.Services
         {
 			try
 			{
-                var config = await _db.AddAsync(dto);
+                var param = new ApiConfiguration
+                {
+
+
+
+                };
+                 var config = await _db.ApiConfigurations.AddAsync(param);
 
                 _db.SaveChanges();
 
@@ -44,11 +50,13 @@ namespace ApiHandler.Services
 				throw;
 			}
         }
-        public async Task<object> GetByIdAsync(int id)
+        public async Task<object> GetByIdAsync(string id)
         {
 			try
 			{
-                var config = await _db.ApiConfigurations.FirstOrDefaultAsync(x => x.Id == id);
+                var config = await _db.ApiConfigurations
+                            .Where(x => x.Id == Guid.Parse(id))
+                            .FirstOrDefaultAsync();
 
                 return config;
 

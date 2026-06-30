@@ -24,7 +24,7 @@ namespace ApiHandler.Controllers.ApiConfig
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetConfig(int id)
+        public async Task<IActionResult> GetConfig(string id)
         {
             var config = await _configService.GetByIdAsync(id);
             return Ok(config);
