@@ -28,7 +28,7 @@ namespace ApiHandler.Services
                     IsActive = true,
                     CreatedOn = DateTime.UtcNow
                 };
-                
+
                 foreach (var mapping in dto.FieldMappings)
                 {
                     entity.FieldMappings.Add(new FieldMapping
@@ -40,7 +40,7 @@ namespace ApiHandler.Services
                 }
 
                 _db.ApiConfigurations.Add(entity);
-                await _db.SaveChangesAsync(); 
+                await _db.SaveChangesAsync();
 
                 return entity.Id;
 
@@ -56,7 +56,9 @@ namespace ApiHandler.Services
             try
             {
                 var dbName = _db.Database.GetConnectionString();
-                var config = await _db.ApiConfigurations.ToListAsync();
+                var config = await _db.ExternalApis
+                 .Include(x => x.RequestParameters).Include(x => x.ResponseParameters)               
+                 .ToListAsync();
 
                 return config;
 
@@ -71,7 +73,7 @@ namespace ApiHandler.Services
         {
             try
             {
-                var config = await _db.ApiConfigurations
+                var config = await _db.ExternalApis
                             .Where(x => x.Id == Guid.Parse(id))
                             .FirstOrDefaultAsync();
 

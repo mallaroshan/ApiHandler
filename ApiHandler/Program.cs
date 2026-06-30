@@ -10,8 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Data Source=ROSHAN\\SQLEXPRESS;Initial Catalog=APIHANDLER;Persist Security Info=True;User ID=microservice;Password=Nepal@123;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;"));
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
 var app = builder.Build();

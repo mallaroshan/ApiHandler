@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiHandler.DTO;
+using ApiHandler.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiHandler.Controllers.Gateway
@@ -7,29 +9,27 @@ namespace ApiHandler.Controllers.Gateway
     [ApiController]
     public class GatewayController : ControllerBase
     {
-        ////private readonly IApiOrchestrationService _orchestrationService;
-        ////public GatewayController(IApiOrchestrationService  orchestrationService)
-        ////{
-        ////    _orchestrationService = orchestrationService;
-        ////}
+        private readonly IGatewayService _gateway;
+        public GatewayController(IGatewayService gateway)
+        {
+            _gateway = gateway;
+        }
+        public class ExecuteRequest
+        {
+            public Dictionary<string, string?> Parameters { get; set; } = new();
+        }
 
-        //[Route("execute/{Config_Id}")]
-        //public async Task<IActionResult> ExecuteEndpoint(
-        //int configId,
-        //[FromBody] ExecuteRequestDto? request)
-        //{
-        //    var result = await _orchestrationService.ExecuteApiFlowAsync(
-        //        configId,
-        //        triggerType: "Manual",
-        //        runtimeParams: request?.RuntimeParams
-        //    );
+        [Route("execute/{Config_Id}")]
+        public async Task<IActionResult> ExecuteEndpoint( int configId, [FromBody] ExecuteRequest? request)
+        {
+            var result = await _gateway.ExecuteApiFlowAsync(
+                configId,
+             request
+            );
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
-        //public class ExecuteRequestDto
-        //{
-        //    public Dictionary<string, string>? RuntimeParams { get; set; }
-        //}
+
     }
 }
