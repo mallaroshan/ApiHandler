@@ -59,5 +59,23 @@ namespace ApiHandler.Services
 				throw;
 			}
         }
+
+        public async Task<object> SaveFieldMapping(FieldMapping dto)
+        {
+            try
+            {
+                var config = await _db.FieldMappings.AddAsync(dto);
+
+                _db.SaveChanges();
+
+                return config;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
