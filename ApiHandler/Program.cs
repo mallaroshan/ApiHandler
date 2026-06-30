@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer("Server=ROSHAN\\SQLEXPRESS;Database=APIHANDLER;Trusted_Connection=True;TrustServerCertificate=True;"));
+        options.UseSqlServer("Server=NISHESH;Database=APIHANDLER;Trusted_Connection=True;TrustServerCertificate=True;"));
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
 var app = builder.Build();

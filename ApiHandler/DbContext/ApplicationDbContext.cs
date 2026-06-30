@@ -46,5 +46,15 @@ public class ApplicationDbContext : DbContext
             .HasMany(x => x.Headers)
             .WithOne(x => x.ExternalApi)
             .HasForeignKey(x => x.ExternalApiId);
+
+        modelBuilder.Entity<ExternalApi>()
+            .HasMany(x => x.RequestParameters)
+            .WithOne(x => x.ExternalApi)
+            .HasForeignKey(x => x.ExternalApiId);
+
+        modelBuilder.Entity<ExternalApi>()
+            .HasMany(x => x.ResponseParameters)
+            .WithOne(x => x.ExternalApi)
+            .HasForeignKey(x => x.ExternalApiId);
     }
 }

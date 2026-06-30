@@ -15,6 +15,7 @@ namespace ApiHandler.DTO
         public string BaseUrl { get; set; } = string.Empty;
 
         public string Endpoint { get; set; } = string.Empty;
+        public bool IsEmptyBody { get; set; } = false;
 
         public HttpMethodType Method { get; set; }
 
@@ -60,6 +61,13 @@ namespace ApiHandler.DTO
         DateTime,
         Array,
         Object
+    }
+
+    public enum RequestBodyType
+    {
+        None = 0,      // GET or no body
+        Empty = 1,     // {}
+        Parameters = 2 // Build body from RequestParameters
     }
 
     public class ApiHeader
